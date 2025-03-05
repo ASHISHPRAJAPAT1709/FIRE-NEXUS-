@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Nexus - Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+.h1{
+    font-size: 60px;
+}
+        /* Background with a visible foggy effect */
+        .welcome-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background: url('baground.jpg') no-repeat center center/cover;
+        }
+
+        /* Foggy effect overlay (lighter for better visibility) */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2); /* Reduced opacity for more visible background */
+            backdrop-filter: blur(2px); /* Slight blur effect */
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: #ffffff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Adds depth to text */
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <!-- Foggy Overlay -->
+        <div class="overlay"></div>
+
+        <!-- Content -->
+        <div class="content">
+            <h1 class="h1">Welcome to Fire Nexus</h1>
+            <p>Ensuring Fire Safety Compliance with Technology</p>
+            <a href="signup.html" class="btn">USER</a>
+            <a href="admin.html" class="btn">ADMIN</a>
+        </div>
+    </div>
+
+    <script>
+        function enterDashboard() {
+            document.getElementById("welcomePage").classList.add("hidden");
+            document.getElementById("dashboardPage").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>

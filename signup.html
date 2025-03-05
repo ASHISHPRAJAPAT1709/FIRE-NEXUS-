@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USER SIGN UP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('baground.jpg');">
+
+    <div class="text-center">
+        <div class="flex items-center justify-center">
+            <h1 class="text-5xl font-bold text-white">Welcome to Fire Nexus</h1>
+            <img src="logo2.png" alt="Logo" class="h-12 ml-2">
+        </div>
+        <p class="text-white mt-5 text-lg">Your trusted Fire Department Portal</p>
+        <button id="openSignup" class="mt-4 bg-[#5B2333] text-white px-6 py-2 rounded-md font-semibold hover:bg-brown transition">Create an Account</button>
+    </div>
+    
+    <!-- Signup Modal -->
+    <div id="signupModal" class="fixed inset-0 bg-[#3D1624] bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-[#C0C0C0] p-8 rounded-lg shadow-lg w-96 transform scale-90 opacity-0 transition-all" id="modalContent">
+            <h2 class="text-2xl font-semibold text-center text-[#5B2333]">Create an Account</h2>
+            
+            <form id="signupForm" class="mt-4 space-y-4">
+                <input type="text" id="name" placeholder="Full Name" required class="w-full p-2 border border-[#A8A8A8] rounded-md focus:ring-2 focus:ring-[#872E44]">
+                <input type="email" id="email" placeholder="Email" required class="w-full p-2 border border-[#A8A8A8] rounded-md focus:ring-2 focus:ring-[#872E44]">
+                <input type="date" id="dob" required class="w-full p-2 border border-[#A8A8A8] rounded-md focus:ring-2 focus:ring-[#872E44]">
+                <input type="password" id="password" placeholder="Password" required class="w-full p-2 border border-[#A8A8A8] rounded-md focus:ring-2 focus:ring-[#872E44]">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required class="w-full p-2 border border-[#A8A8A8] rounded-md focus:ring-2 focus:ring-[#872E44]">
+                
+                <button type="submit" class="w-full bg-[#5B2333] text-white p-2 rounded-md font-semibold hover:bg-[#3D1624] transition"><a href="index.html">SIGN UP</a></button>
+                <button type="submit" class="w-full bg-[#5B2333] text-white p-2 rounded-md font-semibold hover:bg-[#3D1624] transition">Login</button>
+            </form>
+            
+            <p id="errorMessage" class="mt-2 text-red-600 font-semibold text-center"></p>
+            <button id="closeSignup" class="mt-4 bg-[#872E44] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#5B2333] transition w-full">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        const openSignup = document.getElementById("openSignup");
+        const closeSignup = document.getElementById("closeSignup");
+        const signupModal = document.getElementById("signupModal");
+        const modalContent = document.getElementById("modalContent");
+
+        openSignup.addEventListener("click", () => {
+            signupModal.classList.remove("hidden");
+            setTimeout(() => {
+                modalContent.classList.remove("scale-90", "opacity-0");
+                modalContent.classList.add("scale-100", "opacity-100");
+            }, 50);
+        });
+
+        closeSignup.addEventListener("click", () => {
+            modalContent.classList.remove("scale-100", "opacity-100");
+            modalContent.classList.add("scale-90", "opacity-0");
+            setTimeout(() => {
+                signupModal.classList.add("hidden");
+            }, 300);
+        });
+
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let dob = document.getElementById("dob").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+            
+            if (password !== confirmPassword) {
+                document.getElementById("errorMessage").innerText = "Passwords do not match!";
+                return;
+            }
+            
+            fetch("http://localhost:8080/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, dob, password })
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    window.location.href = "dashboard.html";
+                } else {
+                    document.getElementById("errorMessage").innerText = "Signup failed! Try again.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

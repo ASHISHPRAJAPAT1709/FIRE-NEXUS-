@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .profile-header {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 100px 0 50px;
+            font-size: 28px;
+            font-weight: bold;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .profile-content {
+            max-width: 600px;
+            background: white;
+            padding: 100px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #007bff;
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+        }
+        .profile-section {
+            margin-top: 60px;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .profile-section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .button{ #3F5F9F ;
+        color: rgb(68, 82, 210);
+        padding: 12px;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    
+    button:hover {
+        background: #007bff;
+    }
+    
+    </style>
+</head>
+<body>
+    <div class="profile-header">Profile Page</div>
+    <br>
+    <div class="profile-content">
+        <img class="profile-image" src="logo.jpg" alt="Profile Picture">
+        <div class="profile-section">
+            <h2>Personal Information</h2>
+            <p><strong>Name:</strong> Ashutosh Vyas</p>
+            <p><strong>ID Number:</strong> NX917804</p>
+        </div>
+        <div class="profile-section">
+            <h2>Contact Information</h2>
+            <p><strong>Email:</strong> vyasashu1709@gmail.com</p>
+            <p><strong>Phone:</strong> +9191656420750</p>
+            <button  class="button"><a href="index.html">HOME</a></button>
+        </div>
+    </div>
+</body>
+</html>
