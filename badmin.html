@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Center content */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #001f3f;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        /* Centered table */
+        table {
+            width: 80%;
+            max-width: 600px;
+            border-collapse: collapse;
+            background: #002855;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ffcc00;
+            text-align: center;
+        }
+
+        th {
+            background: #ffcc00;
+            color: #002855;
+        }
+
+        /* Button styling */
+        .verify-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .not-verify-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pending-btn {
+            background-color: #ffcc00;
+            color: #002855;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: default;
+        }
+
+        /* Hover effects */
+        .verify-btn:hover {
+            background-color: #218838;
+        }
+
+        .not-verify-btn:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Verify Documents</h2>
+
+    <table id="documentsTable">
+        <tr>
+            <th>File Name</th>
+            <th>Verification Status</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    
+    <script>
+    async function fetchDocuments() {
+        let response = await fetch("http://localhost:5000/documents");
+        let documents = await response.json();
+    
+        let table = document.getElementById("documentsTable");
+    
+        documents.forEach(doc => {
+            let row = table.insertRow();
+            let statusCell = `<td>${doc.verified === true ? "✅ Verified" : doc.verified === false ? "❌ Not Verified" : "⏳ Pending"}</td>`;
+            
+            let actionCell;
+            if (doc.verified === true) {
+                actionCell = `<td><button class="pending-btn" disabled>Verified</button></td>`;
+            } else if (doc.verified === false) {
+                actionCell = `<td><button class="pending-btn" disabled>Not Verified</button></td>`;
+            } else {
+                actionCell = `
+                    <td>
+                        <button class="verify-btn" onclick="verifyDocument('${doc._id}', true)">Verify</button>
+                        <button class="not-verify-btn" onclick="verifyDocument('${doc._id}', false)">Not Verified</button>
+                    </td>
+                `;
+            }
+
+            row.innerHTML = `<td>${doc.filename}</td>${statusCell}${actionCell}`;
+        });
+    }
+    
+    async function verifyDocument(id, status) {
+        await fetch(`http://localhost:5000/verify/${id}`, { 
+            method: "PUT", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ verified: status }) 
+        });
+        location.reload();  // Refresh after verification
+    }
+
+    fetchDocuments();
+    </script>
+    
+</body>
+</html>
