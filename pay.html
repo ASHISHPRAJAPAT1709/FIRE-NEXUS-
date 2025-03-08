@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #001f3f;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .payment-container {
+            background: #002855;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+        h2 {
+            color: #ffcc00;
+        }
+        .payment-option {
+            background: #003366;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .payment-option:hover {
+            background: #004080;
+        }
+        button {
+            background-color: #ffcc00;
+            color: #002855;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #ffa500;
+            transform: scale(1.05);
+        }
+        .qr-code {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Select Payment Method</h2>
+        
+        <!-- QR Code Payment -->
+        <div class="payment-option" onclick="showQRCode()">
+            Pay via QR Code
+            <img src="QR.jpg" id="qrCode" class="qr-code" alt="Scan QR Code to Pay" width="330px" height="330x">
+        </div>
+        
+        
+        <!-- Bank Transfer -->
+        <div class="payment-option" onclick="showBankDetails()">
+            Pay via Bank Transfer
+        </div>
+        <div id="bankDetails" class="qr-code">
+            <p>Account Name: Fire Dept</p>
+            <p>Account Number: 1234567890</p>
+            <p>IFSC Code: ABCD1234567</p>
+        </div>
+
+        <!-- UPI Transfer -->
+        <div class="payment-option" onclick="showUPI()">
+            Pay via UPI
+        </div>
+        <ul id="upiDetails" class="qr-code">
+            <li>
+                <label for="upiID">Enter Your UPI ID:</label>
+                <input type="text" id="upiID" name="upiID" placeholder="example@upi">
+            </li>
+            <li>
+                <button onclick="confirmPayment()">Confirm Payment</button>
+            </li>
+        </ul>
+
+        <!-- Razorpay Payment Gateway -->
+        <button onclick="payWithRazorpay()">Pay via Razorpay</button>
+    </div>
+
+    <script>
+        function showQRCode() {
+            hideAll();
+            document.getElementById('qrCode').style.display = 'block';
+        }
+        function showBankDetails() {
+            hideAll();
+            document.getElementById('bankDetails').style.display = 'block';
+        }
+        function showUPI() {
+            hideAll();
+            document.getElementById('upiDetails').style.display = 'block';
+        }
+        function hideAll() {
+            document.getElementById('qrCode').style.display = 'none';
+            document.getElementById('bankDetails').style.display = 'none';
+            document.getElementById('upiDetails').style.display = 'none';
+        }
+        function confirmPayment() {
+            alert("Payment confirmed. Redirecting...");
+            window.location.href = "success.html";
+        }
+
+        function payWithRazorpay() {
+            var options = {
+                "key": "rzp_test_yourapikey", // Replace with your Razorpay API key
+                "amount": 50000, // Amount in paise (e.g., 50000 = ₹500)
+                "currency": "INR",
+                "name": "Fire Department",
+                "description": "NOC Payment",
+                "image": "https://via.placeholder.com/100",
+                "handler": function (response) {
+                    alert("Payment Successful: " + response.razorpay_payment_id);
+                    window.location.href = "success.html";
+                },
+                "prefill": {
+                    "name": "User Name",
+                    "email": "user@example.com",
+                    "contact": "9999999999"
+                },
+                "theme": {
+                    "color": "#002855"
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        }
+    </script>
+</body>
+</html>
